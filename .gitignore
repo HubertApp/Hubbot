@@ -1,0 +1,40 @@
+# Répertoire des dépendances
+node_modules/
+
+# Fichiers de log
+logs
+*.log
+npm-debug.log*
+
+# Répertoires de processus
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Cache npm
+.npm
+
+# Cache eslint
+.eslintcache
+
+# Historique REPL de Node.js
+.node_repl_history
+
+# Fichiers d'environnement
+.env*
+
+# Répertoires de build
+.next
+.nuxt
+.vuepress/dist
+.cache
+.serverless
+
+# Fichiers de configuration IDE
+.idea/
+.vscode/
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
