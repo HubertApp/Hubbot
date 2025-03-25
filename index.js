@@ -35,9 +35,11 @@ app.post('/github-webhook', (req, res) => {
         const commitMessages = commits.map(commit => `- [${commit.id.substring(0, 7)}] ${commit.message}`).join("\n");
         const message = `🚀 **Push détecté !**\n📂 Repo: **${repository.name}**\n👤 Auteur: **${pusher.name}**\n\n${commitMessages}`;
         channel.send(message);
+        console.log(message);
     }
 
     res.status(200).send("OK");
+    console.log(res);
 });
 
 // Lorsque le bot reçoit un message
@@ -45,34 +47,9 @@ client.on('messageCreate', async (message) => {
     // Ignorer les messages du bot lui-même
     if (message.author.bot) return;
 
-    // Vérifier si le message contient la commande "cls --X"
-    const args = message.content.split(' ');
-    if (args[0].toLowerCase() === 'cls' && args[1] && args[1].startsWith('--')) {
-        const minutes = parseInt(args[1].substring(2), 10);
-        if (isNaN(minutes) || minutes <= 0) {
-            message.channel.send('Veuillez spécifier un nombre valide de minutes.');
-            return;
-        }
-
-        // Calculer le timestamp limite
-        const limitTime = Date.now() - minutes * 60 * 1000;
-
-        // Récupérer tous les messages du canal
-        const messages = await message.channel.messages.fetch({ limit: 100 });
-        const messagesToDelete = messages.filter(msg => msg.createdTimestamp < limitTime);
-
-        // Supprimer les messages ciblés
-        if (messagesToDelete.size > 0) {
-            await message.channel.bulkDelete(messagesToDelete);
-            message.channel.send(`Suppression de ${messagesToDelete.size} messages âgés de plus de ${minutes} minutes.`);
-        } else {
-            message.channel.send(`Aucun message à supprimer. Aucun message n'est plus vieux que ${minutes} minutes.`);
-        }
-    }
-
     // Vérifier si le message contient une mention du bot
     if (message.mentions.has(client.user)) {
-        message.reply(`Oui Sir ${client.user} ?`);
+        message.reply(`Oui Sir ?`);
     }
 
     // Si le message est "favé"
