@@ -47,7 +47,7 @@ client.on('messageCreate', (message) => {
 
     // Vérifier si le message contient une mention du bot
     if (message.mentions.has(client.user)) {
-        message.reply('Oui Sir ?');
+        message.reply('Oui Sir Noé ?');
     }
 
     // Si le message est "favé"
