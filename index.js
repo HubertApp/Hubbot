@@ -33,13 +33,11 @@ app.post('/github-webhook', (req, res) => {
     const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
     if (channel) {
         const commitMessages = commits.map(commit => `- [${commit.id.substring(0, 7)}] ${commit.message}`).join("\n");
-        const message = `🚀 **Push détecté !**\n📂 Repo: **${repository.name}**\n👤 Auteur: **${pusher.name}**\n\n${commitMessages}`;
+        const message = `Hello @everyone,\n\n🚀 **Push détecté !**\n📂 Repo: **${repository.name}**\n👤 Auteur: **${pusher.name}**\n\n${commitMessages}`;
         channel.send(message);
-        console.log(message);
     }
 
     res.status(200).send("OK");
-    console.log(res);
 });
 
 // Lorsque le bot reçoit un message
@@ -49,7 +47,12 @@ client.on('messageCreate', async (message) => {
 
     // Vérifier si le message contient une mention du bot
     if (message.mentions.has(client.user)) {
-        message.reply(`Oui Sir ?`);
+        message.reply(`Oui Sir ${message.author} ?`);
+    }
+
+    // Si le message est "favé"
+    if (message.content.toLowerCase() === 'on mange quoi ce soir') {
+        message.reply('sale');
     }
 
     // Si le message est "favé"
