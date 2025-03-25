@@ -69,8 +69,17 @@ client.on('messageCreate', async (message) => {
             message.channel.send(`Aucun message à supprimer. Aucun message n'est plus vieux que ${minutes} minutes.`);
         }
     }
-});
 
+    // Vérifier si le message contient une mention du bot
+    if (message.mentions.has(client.user)) {
+        message.reply(`Oui Sir ${client.user} ?`);
+    }
+
+    // Si le message est "favé"
+    if (message.content.toLowerCase() === 'favé') {
+        message.reply('FAVEEE A LA BARRRE');
+    }
+});
 
 // Démarre le serveur Express
 app.listen(port, () => {
