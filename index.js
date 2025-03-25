@@ -13,6 +13,15 @@ const client = new Client({
     ],
 });
 
+// Liste des commandes disponibles
+const commandsList = `
+**Commandes disponibles :**
+1. \`help\` - Affiche cette liste de commandes.
+2. \`github\` - Donne le lien vers le GitHub.
+3. \`trello\` - Donne le lien vers le Trello.
+4. \`drive\` - Donne le lien vers le Google Drive.
+`;
+
 // Lors du démarrage du bot
 client.once('ready', () => {
     console.log(`Connecté en tant que ${client.user.tag}`);
@@ -41,7 +50,7 @@ app.post('/github-webhook', (req, res) => {
 });
 
 // Lorsque le bot reçoit un message
-client.on('messageCreate', async (message) => {
+client.on('messageCreate', (message) => {
     // Ignorer les messages du bot lui-même
     if (message.author.bot) return;
 
@@ -50,14 +59,31 @@ client.on('messageCreate', async (message) => {
         message.reply(`Oui Sir ${message.author} ?`);
     }
 
-    // Si le message est "favé"
-    if (message.content.toLowerCase() === 'on mange quoi ce soir') {
-        message.reply('sale');
+    // Si le message est "help"
+    if (message.content.toLowerCase() === 'help') {
+        message.reply(commandsList);
     }
 
     // Si le message est "favé"
     if (message.content.toLowerCase() === 'favé') {
         message.reply('FAVEEE A LA BARRRE');
+    }
+
+    // Si le message est "on mange quoi ce soir ?"
+    if (message.content.toLowerCase() === 'on mange quoi ce soir ?') {
+        message.reply('sale');
+    }
+
+    if (message.content.toLowerCase() === 'github') {
+        message.reply('https://github.com/HubertApp');
+    }
+
+    if (message.content.toLowerCase() === 'drive' || message.content.toLowerCase() === 'google') {
+        message.reply('https://drive.google.com/drive/u/0/folders/1ekO2RrUY9BrBj8KNIkQpxN_No5PDNRoD');
+    }
+
+    if (message.content.toLowerCase() === 'trello') {
+        message.reply('https://trello.com/b/EMGM0wZY/hubertapp');
     }
 });
 
