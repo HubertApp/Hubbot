@@ -24,7 +24,7 @@ client.login(process.env.DISCORD_TOKEN);  // Connexion avec le token du bot depu
 app.use(express.json());
 
 // Route pour recevoir le webhook GitHub
-app.post('/github-webhook', (req, res) => {
+app.post('https://hubbot-hors.onrender.com/github-webhook', (req, res) => {
     const { repository, pusher, commits } = req.body;
     if (!repository || !pusher || !commits) {
         return res.status(400).send("Données invalides");
