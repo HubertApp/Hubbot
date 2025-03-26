@@ -25,6 +25,7 @@ const commandsList = `
 // Lors du démarrage du bot
 client.once('ready', () => {
     console.log(`Connecté en tant que ${client.user.tag}`);
+    client.user.setActivity('Manageur d\'HubertApp', { type: 'PLAYING' }); // Type d'activité : WATCHING, PLAYING, LISTENING, STREAMING
 });
 
 client.login(process.env.DISCORD_TOKEN);  // Connexion avec le token du bot depuis le fichier .env
