@@ -1,7 +1,6 @@
 require('dotenv').config();  // Charge les variables d'environnement
 const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
-
 const app = express();
 const port = process.env.PORT || 8080;  // Port utilisé pour l'API (Webhook GitHub)
 
@@ -24,11 +23,24 @@ const commandsList = `
 
 // Lors du démarrage du bot
 client.once('ready', () => {
-    console.log(`Connecté en tant que ${client.user.tag}`);
-    client.user.setActivity('Manageur d\'HubertApp', { type: 'PLAYING' }); // Type d'activité : WATCHING, PLAYING, LISTENING, STREAMING
+    console.log(`✅ Connecté en tant que ${client.user.tag}`);
+
+    // Définition de l'activité
+    setTimeout(() => {
+        client.user.setActivity("Manageur d'HubertApp", { type: 'PLAYING' });
+        console.log("🎮 Activité définie avec succès");
+    }, 5000);
+
+    const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
+    if (!channel) {
+        console.error("⚠ Le canal Discord n'a pas été trouvé. Vérifie l'ID !");
+    }
 });
 
-client.login(process.env.DISCORD_TOKEN);  // Connexion avec le token du bot depuis le fichier .env
+
+client.login(process.env.DISCORD_TOKEN).catch(err => {
+    console.error("❌ Erreur de connexion au bot Discord:", err.message);
+});
 
 // Middleware pour recevoir les webhooks GitHub
 app.use(express.json());
@@ -43,80 +55,37 @@ app.post('/github-webhook', (req, res) => {
     const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
     if (channel) {
         const commitMessages = commits.map(commit => `- [${commit.id.substring(0, 7)}] ${commit.message}`).join("\n");
-        const message = `Hello @everyone,\n\n🚀 **Push détecté !**\n📂 Repo: **${repository.name}**\n👤 Auteur: **${pusher.name}**\n\n${commitMessages}`;
+        const message = `🚀 **Push détecté !**\n📂 Repo: **${repository.name}**\n👤 Auteur: **${pusher.name}**\n\n${commitMessages}`;
         channel.send(message);
     }
 
     res.status(200).send("OK");
 });
 
-const https = require('https');
-
-exports.handler = async (event, context) => {
- const url = process.env.RENDER_URL;
-
- return new Promise((resolve, reject) => {
-   const req = https.get(url, (res) => {
-     if (res.statusCode === 200) {
-       resolve({
-         statusCode: 200,
-         body: 'Server pinged successfully',
-       });
-     } else {
-       reject(
-         new Error(`Server ping failed with status code: ${res.statusCode}`)
-       );
-     }
-   });
-
-   req.on('error', (error) => {
-     reject(error);
-   });
-
-   req.end();
- });
-};
-
-
-// Lorsque le bot reçoit un message
+// Gestion des messages
 client.on('messageCreate', (message) => {
-    // Ignorer les messages du bot lui-même
-    if (message.author.bot) return;
+    if (message.author.bot) return;  // Ignore les messages des bots
 
-    // Vérifier si le message contient une mention du bot
+    const content = message.content.toLowerCase();
+
     if (message.mentions.has(client.user)) {
         message.reply(`Oui Sir ${message.author} ?`);
-    }
-
-    // Si le message est "help"
-    if (message.content.toLowerCase() === 'help') {
+    } else if (content === 'help') {
         message.reply(commandsList);
-    }
-
-    // Si le message est "favé"
-    if (message.content.toLowerCase() === 'favé') {
-        message.reply('FAVEEE A LA BARRRE');
-    }
-
-    // Si le message est "on mange quoi ce soir ?"
-    if (message.content.toLowerCase() === 'on mange quoi ce soir ?') {
+    } else if (content === 'favé') {
+        message.reply('FAVEEE À LA BARRRE');
+    } else if (content === 'on mange quoi ce soir ?') {
         message.reply('sale');
-    }
-
-    if (message.content.toLowerCase() === 'github') {
+    } else if (content === 'github') {
         message.reply('https://github.com/HubertApp');
-    }
-
-    if (message.content.toLowerCase() === 'drive' || message.content.toLowerCase() === 'google') {
+    } else if (content === 'drive' || content === 'google') {
         message.reply('https://drive.google.com/drive/u/0/folders/1ekO2RrUY9BrBj8KNIkQpxN_No5PDNRoD');
-    }
-
-    if (message.content.toLowerCase() === 'trello') {
+    } else if (content === 'trello') {
         message.reply('https://trello.com/b/EMGM0wZY/hubertapp');
     }
 });
 
 // Démarre le serveur Express
 app.listen(port, () => {
-    console.log(`Serveur en écoute sur le port ${port}`);
+    console.log(`🌍 Serveur en écoute sur le port ${port}`);
 });
