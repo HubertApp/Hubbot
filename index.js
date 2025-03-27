@@ -83,7 +83,7 @@ client.on('messageCreate', (message) => {
     } else if (content === 'trello') {
         message.reply('https://trello.com/b/EMGM0wZY/hubertapp');
     }
-    console.log("Hubert à répondue au 📩: " + content);
+    console.log(`Hubert à répondue au 📩 : ${content} de ${message.author} `);
 });
 
 // Démarre le serveur Express
