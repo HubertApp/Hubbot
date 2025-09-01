@@ -19,6 +19,7 @@ const commandsList = `
 2. \`github\` - Donne le lien vers le GitHub.
 3. \`trello\` - Donne le lien vers le Trello.
 4. \`drive\` - Donne le lien vers le Google Drive.
+5. \`ChatGPT\` - Donne le lien du GPT du projet.
 `;
 
 // Lors du démarrage du bot
@@ -82,6 +83,8 @@ client.on('messageCreate', (message) => {
         message.reply('https://drive.google.com/drive/u/0/folders/1ekO2RrUY9BrBj8KNIkQpxN_No5PDNRoD');
     } else if (content === 'trello') {
         message.reply('https://trello.com/b/EMGM0wZY/hubertapp');
+    }else if (content === 'chatgpt' || content === 'gpt') {
+        message.reply('https://chatgpt.com/share/689c4aba-ffec-800e-a1cc-f0b6bc5daced');
     }
     console.log(`Hubert à répondue au 📩 : ${content} de ${message.author} `);
 });
