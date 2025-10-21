@@ -38,6 +38,7 @@ const commandsList = `
 3. \`trello\` - Donne le lien vers le Trello.
 4. \`drive\` - Donne le lien vers le Google Drive.
 5. \`ChatGPT\` - Donne le lien du GPT du projet.
+6. \`!ask [votre question]\` - Pose une question à Hubert en utilisant le contexte des documents Google Drive.
 `;
 
 // === Fonctions Google Drive ===
@@ -249,4 +250,4 @@ Réponse :
 });
 
 // === Démarrage serveur Express ===
-app.listen(port, () => console.log(`🌍 Serveur en écoute sur le port ${port}`));
+app.listen(port,"0.0.0.0", () => console.log(`🌍 Serveur en écoute sur le port ${port}`));
