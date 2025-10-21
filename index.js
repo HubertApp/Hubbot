@@ -62,7 +62,6 @@ async function listFilesInFolder(folderId) {
   return files;
 }
 
-//Lire le contenu d’un Google Doc
 async function readGoogleDoc(docId) {
   const res = await docs.documents.get({ documentId: docId });
   const content = res.data.body.content;
