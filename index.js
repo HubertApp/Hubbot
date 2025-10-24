@@ -98,10 +98,12 @@ async function buildProjectContext(folderId) {
 // === Discord Events ===
 client.once("ready", () => {
   console.log(`✅ Connecté en tant que ${client.user.tag}`);
-  setTimeout(() => {
-    client.user.setActivity("Manageur d'HubertApp", { type: "PLAYING" });
-    console.log("🎮 Activité définie avec succès");
-  }, 5000);
+  client.user.setPresence({
+    activities: [{ name: "les demandes '!ask' pour HubertApp", type: 2 }], // 0 = PLAYING
+    status: "online"
+  });
+  console.log("🎮 Activité définie avec succès");
+
 });
 
 client.login(process.env.DISCORD_TOKEN).catch((err) => {
@@ -216,7 +218,7 @@ Réponse :
         try {
           const json = JSON.parse(line);
           mistralReply += json.response || "";
-        } catch {}
+        } catch { }
       }
 
       await message.reply(mistralReply || "Pas de réponse 🤔");
@@ -250,4 +252,4 @@ Réponse :
 });
 
 // === Démarrage serveur Express ===
-app.listen(port,"0.0.0.0", () => console.log(`🌍 Serveur en écoute sur le port ${port}`));
+app.listen(port, "0.0.0.0", () => console.log(`🌍 Serveur en écoute sur le port ${port}`));
