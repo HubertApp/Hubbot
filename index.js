@@ -250,7 +250,7 @@ Réponse :
       "https://chatgpt.com/share/689c4aba-ffec-800e-a1cc-f0b6bc5daced"
     );
 
-  console.log(`${content} de ${message.member?.nickname || message.author.username}`);
+  console.log(`${message.member?.nickname || message.author.username} : ${content}`);
 });
 
 // === Démarrage serveur Express ===
