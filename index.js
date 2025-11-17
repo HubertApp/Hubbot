@@ -118,6 +118,9 @@ app.post("/github-webhook", (req, res) => {
   if (!repository || !pusher || !commits)
     return res.status(400).send("Données invalides");
 
+
+  res.status(200).send("OK");
+
   const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
   if (channel) {
     const commitMessages = commits
@@ -127,7 +130,6 @@ app.post("/github-webhook", (req, res) => {
     channel.send(message);
   }
 
-  res.status(200).send("OK");
 });
 
 // === Gestion des messages ===
@@ -248,7 +250,7 @@ Réponse :
       "https://chatgpt.com/share/689c4aba-ffec-800e-a1cc-f0b6bc5daced"
     );
 
-  console.log(`Hubert a répondu au 📩 : ${content} de ${message.author}`);
+  console.log(`${content} de ${message.member?.nickname || message.author.username}`);
 });
 
 // === Démarrage serveur Express ===
